@@ -1,0 +1,63 @@
+from tkinter import *
+from tkinter.messagebox import *
+import random
+
+
+def call():
+    global image1
+    global image2
+    global image3
+    global count
+    num1 = random.choice(range(1, 7))
+    num2 = random.choice(range(1, 7))
+    num3 = random.choice(range(1, 7))
+    img = "touzi/" + str(num1) + "t.png"
+    image1 = PhotoImage(file=img)
+    Label(root, image=image1).grid(row=1, column=0)
+    img = "touzi/" + str(num2) + "t.png"
+    image2 = PhotoImage(file=img)
+    Label(root, image=image2).grid(row=1, column=1)
+    img = "touzi/" + str(num3) + "t.png"
+    image3 = PhotoImage(file=img)
+    Label(root, image=image3).grid(row=1, column=2)
+    count += 1
+    if count >= 20:
+        showwarning(title="Игра в кости",
+                    message="Количество очков на ваших кубиках: " + str(num1 + num2 + num3))
+    else:
+        root.after(100, call)
+
+
+def start():
+    global count
+    count = 0
+    call()
+
+
+if __name__ == '__main__':
+    count = 1
+    root = Tk()  # Создать корневую форму
+    root.wm_attributes("-topmost", 1)  # Вершина
+    root.title("Игра в кости")  # Заголовок формы
+    screenWidth = root.winfo_screenwidth()  # Ширина экрана
+    screenHeight = root.winfo_screenheight()  # Высота экрана
+    width = 330  # Ширина формы
+    height = 180  # Высота формы
+    x = (screenWidth - width) / 2  # Смещение x
+    y = (screenHeight - height) / 2  # Смещение y
+    # Форма отображается в центре
+    root.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    # Определить, можно ли отрегулировать размер кадра
+    root.resizable(width=False, height=False)
+    msg = Label(root, text='Пожалуйста, нажмите" Пуск ", чтобы начать игру').grid(
+        row=0, column=0)
+    image1 = PhotoImage(file="./wa.png")
+    label1 = Label(root, image=image1).grid(row=1, column=0)
+    image2 = PhotoImage(file="../003_python_data_analysis_rice/wa.png")
+    label2 = Label(root, image=image1).grid(row=1, column=1)
+    image3 = PhotoImage(file="./wa.png")
+    label3 = Label(root, image=image1).grid(row=1, column=2)
+    bank = Label(root, text="    ").grid(row=2, column=1)
+    start_button = Button(root, text="Начинать", command=start, width=8)
+    start_button.grid(column=1, row=3)
+    root.mainloop()
